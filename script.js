@@ -39,6 +39,9 @@ $( document ).ready(function() {
     locationGetLongitude: function (a){return a.lng},
     createLocationFromText: function (a,b,c){console.log("createLocationFromText "+a);var d=a.split(",");if(2==d.length){console.log(d);var e=d[0],f=d[1],g={lat:e,lng:f};b(g)}else c("Invalid Location")},
     },
+  JSON: {
+    parseJSONDataForPath: function (a,b){var c={};if("string"==typeof a)try{c=JSON.parse(a)}catch(a){}else"object"==typeof a&&(c=a);var d=jsonPath(c,b);return d===!1?c={}:d},
+    },
   Connio: {
     connioBaseURL: "https://api.connio.com",
     connioApp: "_app_796713082971687907",
@@ -50,35 +53,7 @@ $( document ).ready(function() {
     connioMQTTUsername: "_key_822826112904411459",
     connioMQTTPassword: "cddd9bed10324fcea3ccef36e37924fa",
     connioMQTTTopic: "connio/apps/_app_796713082971687907/devices/#",
-    connioMQTTClient: {
-      _getHost: function (){return a},
-      _setHost: function (){throw new Error(p(n.UNSUPPORTED_OPERATION))},
-      _getPort: function (){return b},
-      _setPort: function (){throw new Error(p(n.UNSUPPORTED_OPERATION))},
-      _getPath: function (){return c},
-      _setPath: function (){throw new Error(p(n.UNSUPPORTED_OPERATION))},
-      _getURI: function (){return e},
-      _setURI: function (){throw new Error(p(n.UNSUPPORTED_OPERATION))},
-      _getClientId: function (){return k.clientId},
-      _setClientId: function (){throw new Error(p(n.UNSUPPORTED_OPERATION))},
-      _getOnConnectionLost: function (){return k.onConnectionLost},
-      _setOnConnectionLost: function (a){if("function"!=typeof a)throw new Error(p(n.INVALID_TYPE,[typeof a,"onConnectionLost"]));k.onConnectionLost=a},
-      _getOnMessageDelivered: function (){return k.onMessageDelivered},
-      _setOnMessageDelivered: function (a){if("function"!=typeof a)throw new Error(p(n.INVALID_TYPE,[typeof a,"onMessageDelivered"]));k.onMessageDelivered=a},
-      _getOnMessageArrived: function (){return k.onMessageArrived},
-      _setOnMessageArrived: function (a){if("function"!=typeof a)throw new Error(p(n.INVALID_TYPE,[typeof a,"onMessageArrived"]));k.onMessageArrived=a},
-      _getTrace: function (){return k.traceFunction},
-      _setTrace: function (a){if("function"!=typeof a)throw new Error(p(n.INVALID_TYPE,[typeof a,"onTrace"]));k.traceFunction=a},
-      connect: function (a){if(a=a||{},l(a,{timeout:"number",userName:"string",password:"string",willMessage:"object",keepAliveInterval:"number",cleanSession:"boolean",useSSL:"boolean",invocationContext:"object",onSuccess:"function",onFailure:"function",hosts:"object",ports:"object",mqttVersion:"number",mqttVersionExplicit:"boolean",uris:"object"}),void 0===a.keepAliveInterval&&(a.keepAliveInterval=60),a.mqttVersion>4||a.mqttVersion<3)throw new Error(p(n.INVALID_ARGUMENT,[a.mqttVersion,"connectOptions.mqttVersion"]));if(void 0===a.mqttVersion?(a.mqttVersionExplicit=!1,a.mqttVersion=4):a.mqttVersionExplicit=!0,void 0!==a.password&&void 0===a.userName)throw new Error(p(n.INVALID_ARGUMENT,[a.password,"connectOptions.password"]));if(a.willMessage){if(!(a.willMessage instanceof x))throw new Error(p(n.INVALID_TYPE,[a.willMessage,"connectOptions.willMessage"]));if(a.willMessage.stringPayload,"undefined"==typeof a.willMessage.destinationName)throw new Error(p(n.INVALID_TYPE,[typeof a.willMessage.destinationName,"connectOptions.willMessage.destinationName"]))}if("undefined"==typeof a.cleanSession&&(a.cleanSession=!0),a.hosts){if(!(a.hosts instanceof Array))throw new Error(p(n.INVALID_ARGUMENT,[a.hosts,"connectOptions.hosts"]));if(a.hosts.length<1)throw new Error(p(n.INVALID_ARGUMENT,[a.hosts,"connectOptions.hosts"]));for(var b=!1,d=0;d<a.hosts.length;d++){if("string"!=typeof a.hosts[d])throw new Error(p(n.INVALID_TYPE,[typeof a.hosts[d],"connectOptions.hosts["+d+"]"]));if(/^(wss?):\/\/((\[(.+)\])|([^\/]+?))(:(\d+))?(\/.*)$/.test(a.hosts[d])){if(0==d)b=!0;else if(!b)throw new Error(p(n.INVALID_ARGUMENT,[a.hosts[d],"connectOptions.hosts["+d+"]"]))}else if(b)throw new Error(p(n.INVALID_ARGUMENT,[a.hosts[d],"connectOptions.hosts["+d+"]"]))}if(b)a.uris=a.hosts;else{if(!a.ports)throw new Error(p(n.INVALID_ARGUMENT,[a.ports,"connectOptions.ports"]));if(!(a.ports instanceof Array))throw new Error(p(n.INVALID_ARGUMENT,[a.ports,"connectOptions.ports"]));if(a.hosts.length!=a.ports.length)throw new Error(p(n.INVALID_ARGUMENT,[a.ports,"connectOptions.ports"]));a.uris=[];for(var d=0;d<a.hosts.length;d++){if("number"!=typeof a.ports[d]||a.ports[d]<0)throw new Error(p(n.INVALID_TYPE,[typeof a.ports[d],"connectOptions.ports["+d+"]"]));var f=a.hosts[d],g=a.ports[d],h=f.indexOf(":")!=-1;e="ws://"+(h?"["+f+"]":f)+":"+g+c,a.uris.push(e)}}}k.connect(a)},
-      subscribe: function (a,b){if("string"!=typeof a)throw new Error("Invalid argument:"+a);if(b=b||{},l(b,{qos:"number",invocationContext:"object",onSuccess:"function",onFailure:"function",timeout:"number"}),b.timeout&&!b.onFailure)throw new Error("subscribeOptions.timeout specified with no onFailure callback.");if("undefined"!=typeof b.qos&&0!==b.qos&&1!==b.qos&&2!==b.qos)throw new Error(p(n.INVALID_ARGUMENT,[b.qos,"subscribeOptions.qos"]));k.subscribe(a,b)},
-      unsubscribe: function (a,b){if("string"!=typeof a)throw new Error("Invalid argument:"+a);if(b=b||{},l(b,{invocationContext:"object",onSuccess:"function",onFailure:"function",timeout:"number"}),b.timeout&&!b.onFailure)throw new Error("unsubscribeOptions.timeout specified with no onFailure callback.");k.unsubscribe(a,b)},
-      send: function (a,b,c,d){var e;if(0==arguments.length)throw new Error("Invalid argument.length");if(1==arguments.length){if(!(a instanceof x)&&"string"!=typeof a)throw new Error("Invalid argument:"+typeof a);if(e=a,"undefined"==typeof e.destinationName)throw new Error(p(n.INVALID_ARGUMENT,[e.destinationName,"Message.destinationName"]));k.send(e)}else e=new x(b),e.destinationName=a,arguments.length>=3&&(e.qos=c),arguments.length>=4&&(e.retained=d),k.send(e)},
-      disconnect: function (){k.disconnect()},
-      getTraceLog: function (){return k.getTraceLog()},
-      startTrace: function (){k.startTrace()},
-      stopTrace: function (){k.stopTrace()},
-      isConnected: function (){return k.connected},
-      },
+    connioMQTTClient: null,
     connioMQTTMessageRecvCallback: null,
     configure: function (){if(null==this.connioBaseURL){var a=this,b=Creator.currentProject.serviceModel.getServiceObject("Connio"),c=b.attributes.attrs;this.connioBaseURL=c.api.url,this.connioApp=c.api.app,this.connioKEY=c.api.key,this.connioSecret=c.api.secret,this.connioMQTTHost=c.mqtt.host,this.connioMQTTPort=Number(c.mqtt.port),this.connioMQTTCientID=c.mqtt.clientId,this.connioMQTTUsername=c.mqtt.username,this.connioMQTTPassword=c.mqtt.password,this.connioMQTTTopic="connio/apps/"+this.connioApp+"/devices/#";try{""!=this.connioBaseURL&&""!=this.connioKEY&&""!=this.connioSecret||console.log("Please go to File -> Connio Properties and set credentials."),""!=this.connioMQTTHost&&""!=this.connioMQTTPort&&""!=this.connioMQTTCientID&&""!=this.connioMQTTUsername&&""!=this.connioMQTTPassword&&""!=this.connioApp?(this.connioMQTTClient=new Paho.MQTT.Client(this.connioMQTTHost,this.connioMQTTPort,this.connioMQTTCientID),this.connioMQTTClient.onConnectionLost=function(b){a.handleMQTTConnectionLost(b)},this.connioMQTTClient.onMessageArrived=function(b){a.handleMQTTMessage(b)}):console.log("Please go to File -> Connio Properties and set credentials.")}catch(a){console.log("Some of the properties are missing. Go to File->Connio Properties")}}},
     connioConfigure: function (a,b,c){this.configure(),this.connioKEY=a,this.connioSecret=b,this.connioMQTTMessageRecvCallback=c,this.connio_mqtt_connect()},
@@ -93,7 +68,7 @@ $( document ).ready(function() {
     connioGetDeviceLocation: function (a,b){this.configure();var c=a.results;try{for(var d=0;d<c.length;d++){var e=c[d];if(e.id==b||e.name==b){var f={lat:e.location.geo.lat,lng:e.location.geo.lon};return f}}}catch(a){}return""},
     connioWriteData: function (a,b,c,d,e){this.configure();var f=this.connioBaseURL+"/v2/data/devices/"+a+"/properties/"+c,g={};g.dps=[];var h={};h.t=(new Date).toISOString(),h.v=b,g.dps.push(h),$.ajax({url:f,type:"POST",headers:{Authorization:"Basic "+btoa(this.connioKEY+":"+this.connioSecret),"Content-Type":"application/json",Accept:"application/json"},dataType:"json",data:JSON.stringify(g),success:function(a){d(a)},error:function(a,b,c){e(c),console.log("Could not write data.")}})},
     connioExecuteMethod: function (a,b,c,d,e){this.configure()},
-    connioReadHistorical: function (a,b,c,d,e,f,g,h){this.configure();var i=this.connioBaseURL+"/v2/data/devices/"+a+"/properties/"+b+"?";if(null!=e){var j=(e?"-":"")+"source.time";i+="sort="+j}else i+="sort=-source.time";null!=f&&(i+="&limit="+f),null!=c&&null!=d&&(i+="&q=source.time:("+c.toISOString()+"+TO+"+d.toISOString()+")"),$.ajax({url:i,type:"GET",headers:{Authorization:"Basic "+btoa(this.connioKEY+":"+this.connioSecret)},success:function(a){for(var b=parseJSONDataForPath(a,"$.results[:].t"),c=parseJSONDataForPath(a,"$.results[:].v"),d=[],e=0;e<b.length;e++)d.push(moment(b[e]).format("MMM-DD hh:mm A"));g(d,c)},error:function(a,b,c){h(c),console.log("Could not read historical.")}})},
+    connioReadHistorical: function (a,b,c,d,e,f,g,h){this.configure();var i=this.connioBaseURL+"/v2/data/devices/"+a+"/properties/"+b+"?";if(null!=e){var j=(e?"-":"")+"source.time";i+="sort="+j}else i+="sort=-source.time";null!=f&&(i+="&limit="+f),null!=c&&null!=d&&(i+="&q=source.time:("+c.toISOString()+"+TO+"+d.toISOString()+")"),$.ajax({url:i,type:"GET",headers:{Authorization:"Basic "+btoa(this.connioKEY+":"+this.connioSecret)},success:function(a){for(var b=com.fc.JavaScriptDistLib.JSON.parseJSONDataForPath(a,"$.results[:].t"),c=com.fc.JavaScriptDistLib.JSON.parseJSONDataForPath(a,"$.results[:].v"),d=[],e=0;e<b.length;e++)d.push(moment(b[e]).format("MMM-DD hh:mm A"));g(d,c)},error:function(a,b,c){h(c),console.log("Could not read historical.")}})},
     connio_mqtt_connect: function (){console.log("Connecting to Connio MQTT...");var a=this;try{this.connioMQTTClient.connect({onSuccess:function(){console.log("Connected to Connio MQTT..."),a.subscribeToTopic()},userName:this.connioMQTTUsername,password:this.connioMQTTPassword,keepAliveInterval:25,timeout:60,useSSL:!0})}catch(a){console.log("Connio MQTT connection already exists. Coming out...")}},
     connio_mqtt_disconnect: function (){console.log("Disconnecting Connio MQTT..."),this.connioMQTTClient.disconnect()},
     subscribeToTopic: function (){console.log("Subscribing to topic...");var a=this,b={qos:0,invocationContext:{foo:!0},onSuccess:function(b){a.handleMQTTSubscribeSuccess(b)},onFailure:function(b){a.handleMQTTSubscribeFailed(b),console.log("Could not subscribe to topic")},timeout:10};this.connioMQTTClient.subscribe(this.connioMQTTTopic,b)},
@@ -108,22 +83,59 @@ $( document ).ready(function() {
   TimeLibrary: {
     createTime: function (a){var b=a.match(/^(\d{2}):(\d{2})(\s)(\w{2})(\s)(\d{2})\/(\d{2})\/(\d{4})$/);if(null===b)return null;var c=+b[6],d=+b[7],e=+b[8],f=b[4],g=+b[1],h=+b[2];if(0==f.toString().toLowerCase().localeCompare("pm"))g+=12;else if(0!=f.toString().toLowerCase().localeCompare("am"))return f;return new Date(e,d-1,c,g,h)},
     createTimeNow: function (){return new Date},
-    createTimeFromTimestamp: function (a){return new Date(toNumber(a))},
+    createTimeFromTimestamp: function (a){return new Date(Number(a))},
+    createTimestampFromTime: function (a){return new Date(a).getTime()},
     textFromTime: function (a,b){var c=new Date(a);switch(b){case"DATE_TIME_12":var d=c.getHours(),e=c.getMinutes(),f=c.getMonth()+1,g=c.getDate(),h=c.getFullYear(),i="AM";return d>12&&(d-=12,i="PM"),1==e.toString().length&&(e="0"+e),d+":"+e+" "+i+" "+g+"/"+f+"/"+h;case"DATE_TIME_12_US":var d=c.getHours(),e=c.getMinutes(),f=c.getMonth()+1,g=c.getDate(),h=c.getFullYear(),i="AM";return d>12&&(d-=12,i="PM"),1==e.toString().length&&(e="0"+e),d+":"+e+" "+i+" "+f+"/"+g+"/"+h;case"DATE_TIME_24":var d=c.getHours(),e=c.getMinutes(),f=c.getMonth()+1,g=c.getDate(),h=c.getFullYear();return 1==e.toString().length&&(e="0"+e),d+":"+e+" "+g+"/"+f+"/"+h;case"DATE_TIME_24_US":var d=c.getHours(),e=c.getMinutes(),f=c.getMonth()+1,g=c.getDate(),h=c.getFullYear();return 1==e.toString().length&&(e="0"+e),d+":"+e+" "+f+"/"+g+"/"+h;case"TIME_12":var d=c.getHours(),e=c.getMinutes(),i="AM";return d>12&&(d-=12,i="PM"),d+":"+e+" "+i;case"TIME_24":var d=c.getHours(),e=c.getMinutes();return d+":"+e;case"DATE":var f=c.getMonth()+1,g=c.getDate(),h=c.getFullYear();return g+"/"+f+"/"+h;case"DATE_US":var f=c.getMonth()+1,g=c.getDate(),h=c.getFullYear();return f+"/"+g+"/"+h;default:return""}},
     elapsedComponent: function (a,b){return Math.floor(a/b)},
-    elapsedComponentsFromTime: function (a,b){var c=new Date(a.getTime()),d=new Date(0),e=c.getUTCFullYear()-d.getUTCFullYear(),f=c.getUTCMonth()-d.getUTCMonth(),g=c.getUTCDate()-d.getUTCDate(),h=c.getUTCHours()-d.getUTCHours(),i=c.getUTCMinutes()-d.getUTCMinutes(),j=c.getUTCSeconds()-d.getUTCSeconds();
-switch(b){case"S":return[j];case"SM":return[i,j];case"SMH":return[h,i,j];case"SMHD":return[g,h,i,j];case"SMHDM":return[f,g,h,i,j];case"SMHDMY":return[e,f,g,h,i,j];default:return[]}},
+    elapsedComponentsFromTime: function (a,b){var c=new Date(a.getTime()),d=new Date(0),e=c.getUTCFullYear()-d.getUTCFullYear(),f=c.getUTCMonth()-d.getUTCMonth(),g=c.getUTCDate()-d.getUTCDate(),h=c.getUTCHours()-d.getUTCHours(),i=c.getUTCMinutes()-d.getUTCMinutes(),j=c.getUTCSeconds()-d.getUTCSeconds();switch(b){case"S":return[j];case"SM":return[i,j];case"SMH":return[h,i,j];case"SMHD":return[g,h,i,j];case"SMHDM":return[f,g,h,i,j];case"SMHDMY":return[e,f,g,h,i,j];default:return[]}},
     componentsFromTime: function (a,b){var c=new Date(a);switch(b){case"S":return[c.getSeconds()];case"SM":return[c.getMinutes(),c.getSeconds()];case"SMH":return[c.getHours(),c.getMinutes(),c.getSeconds()];case"SMHD":return[c.getDate(),c.getHours(),c.getMinutes(),c.getSeconds()];case"SMHDM":return[c.getMonth()+1,c.getDate(),c.getHours(),c.getMinutes(),c.getSeconds()];case"SMHDMY":return[c.getFullYear(),c.getMonth()+1,c.getDate(),c.getHours(),c.getMinutes(),c.getSeconds()];default:return[]}},
     numberDayOfWeekFromDate: function (a){var b=new Date(a);return 0==b.getDay()?7:b.getDay()},
     stringDayOfWeekFromDate: function (a){var b=new Date(a),c=new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");return c[b.getDay()]},
     createTimeInterval: function (a,b,c,d,e,f){return[a,b,c,d,e,f]},
-    addIntervalFromTime: function (a,b){if(b.constructor!==Array||6!=b.length)return new Date(a);var c=new Date(a);return c.setSeconds(c.getSeconds()+toNumber(b[0])),c.setMinutes(c.getMinutes()+toNumber(b[1])),c.setHours(c.getHours()+toNumber(b[2])),c.setDate(c.getDate()+toNumber(b[3])),c.setMonth(c.getMonth()+toNumber(b[4])),c.setFullYear(c.getFullYear()+toNumber(b[5])),c},
-    subtractIntervalFromTime: function (a,b){if(b.constructor!==Array||6!=b.length)return a;var c=new Date(a);return c.setSeconds(c.getSeconds()-toNumber(b[0])),c.setMinutes(c.getMinutes()-toNumber(b[1])),c.setHours(c.getHours()-toNumber(b[2])),c.setDate(c.getDate()-toNumber(b[3])),c.setMonth(c.getMonth()-toNumber(b[4])),c.setFullYear(c.getFullYear()-toNumber(b[5])),c},
+    addIntervalFromTime: function (a,b){if(b.constructor!==Array||6!=b.length)return new Date(a);var c=this.componentsFromTime(a,"SMHDMY"),d=c[0]+Number(b[5]),e=c[1]-1+Number(b[4]),f=c[2]+Number(b[3]),g=c[3]+Number(b[2]),h=c[4]+Number(b[1]),i=c[5]+Number(b[0]);return new Date(d,e,f,g,h,i)},
+    subtractIntervalFromTime: function (a,b){if(b.constructor!==Array||6!=b.length)return a;var c=this.componentsFromTime(a,"SMHDMY"),d=c[0]-Number(b[5]),e=c[1]-1-Number(b[4]),f=c[2]-Number(b[3]),g=c[3]-Number(b[2]),h=c[4]-Number(b[1]),i=c[5]-Number(b[0]);return new Date(d,e,f,g,h,i)},
     TimeLibException: function (a,b){this.name="TimeLibException",this.snappMessage=a,this.message=b||a,this.stack=(new Error).stack},
     },
+  MathLibrary: {
+    toNumber: function (a){return this.isNumber(a)?Number(a):null},
+    isNumber: function (a){return!isNaN(a-0)&&null!==a&&""!==a&&a!==!1&&a!==!0},
+    mathCompare: function (a,b,c){switch(b){case"EQ":return this.toNumber(a)==this.toNumber(c);case"NEQ":return this.toNumber(a)!=this.toNumber(c);case"LT":return this.toNumber(a)<this.toNumber(c);case"LTE":return this.toNumber(a)<=this.toNumber(c);case"GT":return this.toNumber(a)>this.toNumber(c);case"GTE":return this.toNumber(a)>=this.toNumber(c);default:return!1}},
+    mathMinMax: function (a,b,c){switch(b){case"MIN":return Math.min(this.toNumber(a),this.toNumber(c));case"MAX":return Math.max(this.toNumber(a),this.toNumber(c));default:return 0}},
+    mathModulo: function (a,b,c){switch(b){case"MODULO":return this.toNumber(a)%this.toNumber(c);case"QUOTIENT":return Math.floor(this.toNumber(a)/this.toNumber(c));default:return 0}},
+    mathConversionRadDeg: function (a,b){switch(a){case"DEGTORAD":return this.toNumber(b)*(Math.PI/180);case"RADTODEG":return this.toNumber(b)*(180/Math.PI);default:return 0}},
+    mathRoundPrecision: function (a,b){return Math.round(this.toNumber(a)*Math.pow(10,this.toNumber(b)))/Math.pow(10,this.toNumber(b))},
+    MathLibException: function (a,b){this.name="MathLibException",this.snappMessage=a,this.message=b||a,this.stack=(new Error).stack},
+    },
+  TextLib: {
+    textComparison: function (a,b,c){switch(b){case"LESS":return a.toString()<c.toString();case"EQUAL":return a.toString()==c.toString();case"GREATER":return a.toString()>c.toString();default:return!1}},
+    textTrim: function (a){return a.toString().trim()},
+    textChangeCase: function (a,b){switch(b){case"UPPERCASE":return a.toString().toUpperCase();case"LOWERCASE":return a.toString().toLowerCase();default:return""}},
+    textSubstring: function (a,b,c){return a.toString().substring(toNumber(b),toNumber(b)+toNumber(c))},
+    textContains: function (a,b){return a.toString().indexOf(b)!==-1},
+    textIndexOf: function (a,b){return a.toString().indexOf(b)},
+    textSplitAt: function (a,b){return[a.toString().substring(0,toNumber(b)),a.toString().substring(toNumber(b))]},
+    textSplitWith: function (a,b){return a.toString().split(b.toString())},
+    textReplace: function (a,b,c){for(var d=c.toString();d.indexOf(a.toString())!==-1;)d=d.toString().replace(a.toString(),b.toString());return d},
+    isText: function (a){return"string"==typeof a||a instanceof String},
+    convertToText: function (a){return jQuery.isXMLDoc(a)?(new XMLSerializer).serializeToString(a):jQuery.isArray(a)?a.toString():"string"==typeof a?a:JSON.stringify(a)},
+    },
   Dictionary: {
+    createEmptyDictionary: function (){return"{}"},
     removeAllKeys: function (a){for(var b in a)delete a[b]},
     getKeys: function (a){var b=[];for(var c in a)b.push(c);return b},
+    getDictValue: function (a,b){return a[b]},
+    setDictValue: function (a,b,c){return a[b]=c},
+    removeDictKey: function (a,b){return delete a[b]},
+    conatinedInDict: function (a,b){return void 0!=a[b]},
+    },
+  ListLibrary: {
+    listAdd: function (a,b){return a.push(b)},
+    listContains: function (a,b){return a.indexOf(b)>-1},
+    listAppend: function (a,b){return a.concat(b)},
+    listCheck: function (a){return a instanceof Array},
+    listEmpty: function (a){return a.length=0},
+    listOrder: function (a,b){a.sort(function(a,c){return"ASCENDING"==b?a-c:c-a})},
+    ListLibException: function (a,b){this.name="ListLibException",this.snappMessage=a,this.message=b||a,this.stack=(new Error).stack},
     },
   Gauge: {
     setProperty: function (a,b,c){try{var d,e='[obj-name="'+a+'"]';$(e);switch($(e).find(".c3").each(function(){d=$(this).data("c3-chart")}),b){case"width":case"height":case"x":case"y":com.fc.JavaScriptDistLib.setProperty(a,b,c);break;case"Alpha":d3.selectAll(e).style("opacity",c/100);break;case"Background color":$(e+" svg").css("background-color",c);break;case"Current Value":d.load({columns:[["data",c]]});break;case"Maximum Value":d.internal.config.gauge_max=c;var f=d.data(),g=f[0].values[0].value;d.load({columns:[["data",g]]});break;case"Minimum Value":d.internal.config.gauge_min=c;var f=d.data(),g=f[0].values[0].value;d.load({columns:[["data",g]]});break;case"track color":d3.selectAll(e+" path.c3-chart-arcs-background").style("fill",c);break;case"pointer color":d3.selectAll(e).select("path.c3-arc-data").style("fill",c);break;case"track width":d.internal.config.gauge_width=c;var f=d.data(),g=f[0].values[0].value;d.load({columns:[["data",g]]})}}catch(a){throw new com.fc.JavaScriptDistLib.Gauge.GaugeException(a)}},
@@ -152,8 +164,6 @@ switch(b){case"S":return[j];case"SM":return[i,j];case"SMH":return[h,i,j];case"SM
 
  
 
-   /* Init Maps if any  
-   initMap && initMap();*/
 });
 $( document ).ready(function() {
 var pComboBoxDeviceTitle;
@@ -209,7 +219,7 @@ function FuncComboBoxDevices(pComboBoxDeviceTitle) {
     $('[obj-name="S2cntComboDeviceList"]').hide(); // Block#: 19
   S2DevicelistIsExpanded = false;
   // Block#: 21
-  S2drawCharts(S2ComboDeviceSelected, (toNumber(pComboBoxValuesTitle)
+  S2drawCharts(S2ComboDeviceSelected, (com.fc.JavaScriptDistLib.MathLibrary.toNumber(pComboBoxValuesTitle)
   ));
 }
 
@@ -222,7 +232,7 @@ function FuncComboBoxValues(maxValues) {
     $('[obj-name="S2cntComboValueList"]').hide(); // Block#: 45
   S2ValueListIsExpanded = false;
   // Block#: 47
-  S2drawCharts(S2ComboDeviceSelected, (toNumber(maxValues)
+  S2drawCharts(S2ComboDeviceSelected, (com.fc.JavaScriptDistLib.MathLibrary.toNumber(maxValues)
   ));
 }
 
@@ -231,10 +241,10 @@ function S2drawCharts(Pdevice, pMaxValues) {
   com.fc.JavaScriptDistLib.Connio.connioReadData(Pdevice,
    function(data){
     // Block#: 107
-    LastDeviceTemp = (toNumber(com.fc.JavaScriptDistLib.Connio.connionGetValue(data, 'mostRecent', pProperty3))
+    LastDeviceTemp = (com.fc.JavaScriptDistLib.MathLibrary.toNumber(com.fc.JavaScriptDistLib.Connio.connionGetValue(data, 'mostRecent', pProperty3))
     );
     // Block#: 112
-    LastDeviceHumidity = (toNumber(com.fc.JavaScriptDistLib.Connio.connionGetValue(data, 'mostRecent', pProperty1))
+    LastDeviceHumidity = (com.fc.JavaScriptDistLib.MathLibrary.toNumber(com.fc.JavaScriptDistLib.Connio.connionGetValue(data, 'mostRecent', pProperty1))
     );
     // Block#: 117
     com.fc.JavaScriptDistLib.Label.setProperty("S2lblDeviceTemp", "Text", String(LastDeviceTemp) + String('°'));// Block#: 121
@@ -291,7 +301,7 @@ function S4resetDevice2Options() {
 function PopulateDevicePopUp(DeviceName, DeviceLat, DeviceLon, DeviceTemp, DeviceHumidity) {
   // Block#: 184
   com.fc.JavaScriptDistLib.Label.setProperty("S1lblDeviceName", "Text", DeviceName);// Block#: 186
-  com.fc.JavaScriptDistLib.Label.setProperty("S1lblLatLon", "Text", [(convertToText(DeviceLat)),'°, ',(convertToText(DeviceLon)),'°'].join(''));// Block#: 194
+  com.fc.JavaScriptDistLib.Label.setProperty("S1lblLatLon", "Text", [(com.fc.JavaScriptDistLib.TextLib.convertToText(DeviceLat)),'°, ',(com.fc.JavaScriptDistLib.TextLib.convertToText(DeviceLon)),'°'].join(''));// Block#: 194
   com.fc.JavaScriptDistLib.Label.setProperty("S1lblTemp", "Text", ['Temp  ',DeviceTemp,'° , '].join(''));// Block#: 199
   com.fc.JavaScriptDistLib.Label.setProperty("S1lblHumidity", "Text", ['Humidity  ',DeviceHumidity,'g/m3 '].join(''));}
 
@@ -732,7 +742,7 @@ pComboBoxValuesTitle = '7';
 com.fc.JavaScriptDistLib.Label.setProperty("S2lblComboValuesTitle", "Text", pComboBoxValuesTitle);// Block#: 460
 FuncComboBoxValues(pComboBoxValuesTitle);
 // Block#: 462
-S2drawCharts(S2ComboDeviceSelected, (toNumber(pComboBoxValuesTitle)
+S2drawCharts(S2ComboDeviceSelected, (com.fc.JavaScriptDistLib.MathLibrary.toNumber(pComboBoxValuesTitle)
 ));
 // Block#: 466
 com.fc.JavaScriptDistLib.Label.setProperty("S3lblDevice1", "Text", pDevice1LocationName);// Block#: 468
