@@ -93,7 +93,7 @@ $(document).ready(function() {
       var b = a.getFieldValue("OBJECT"),
         c = '[obj-name="' + b + '"]',
         d = "  $('" + c + "').show();";
-      return d
+      return d;
     },
     sensorIsVisible: function(a) {
       var b = a.getFieldValue("OBJECT"),
@@ -634,6 +634,98 @@ $(document).ready(function() {
         var d = jsonPath(c, b);
         return d === !1 ? c = {} : d
       },
+      parseJSONDataWithCallback: function(a, b, c) {
+        var d = {};
+        if("string" == typeof a) try {
+          d = JSON.parse(a), b(d)
+        } catch(a) {
+          c(a)
+        } else "object" == typeof a ? b(a) : c("Not a valid JSON")
+      },
+      parseJSONData: function(a) {
+        var b = {};
+        if("string" == typeof a) {
+          try {
+            b = JSON.parse(a)
+          } catch(a) {
+            throw a.snappMessage = "The input data does not seem a JSON object", a
+          }
+          return b
+        }
+        return "object" == typeof a ? a : b
+      },
+      isValidJSON: function(a) {
+        if("string" != typeof a) return "object" == typeof a;
+        try {
+          return jsonObject = JSON.parse(a), !0
+        } catch(a) {
+          return !1
+        }
+      },
+      covertToJSON: function(a) {
+        return this.parseJSONData(a)
+      },
+    },
+    Network: {
+      createHTTPRequest: function(a, b) {
+        var c = {};
+        if("GET" == b || "POST" == b || "PUT" == b || "DELETE" == b) return c.url = a, c.method = b, c.headers = {}, c.data = {}, c;
+        throw new this.HTTPUnsupportedRequest("We support basic http CRUD", "Request type can be one of GET/POST/PUT or DELETE")
+      },
+      addHTTPHeader: function(a, b, c) {
+        a.headers[b] = c
+      },
+      addHTTPParams: function(a, b, c) {
+        a.data[b] = c
+      },
+      setHTTPBody: function(a, b) {
+        if("object" == typeof b) a.data = JSON.stringify(b);
+        else {
+          if("string" != typeof b) throw a.data = "", new IllegalArgumentException("Body can be currently only of type string or json");
+          a.data = b
+        }
+      },
+      setDataType: function(a, b) {
+        a.dataType = b
+      },
+      setProxyState: function(a, b) {
+        a.proxy = b
+      },
+      sendHTTPRequest: function(a, b, c) {
+        var d = this.getSanitizedURL(a),
+          e = a.method,
+          f = a.data,
+          g = a.dataType,
+          h = a.headers,
+          i = this;
+        $.ajax({
+          url: d,
+          type: e,
+          headers: h,
+          dataType: g,
+          data: f,
+          success: function(a) {
+            b(a)
+          },
+          error: function(a, b, d) {
+            throw c(d), new i.HTTPNetworkException(d)
+          }
+        })
+      },
+      getSanitizedURL: function(a) {
+        var b = "https://iot.snapp.click:8443/",
+          c = !1,
+          d = a.url;
+        void 0 != a.proxy && a.proxy === !1 && (c = !1);
+        var e = d;
+        return c ? e = b + d : d
+      },
+      HTTPNetworkException: function(a, b) {
+        this.name = "HTTPNetworkException", this.snappMessage = a, this.message = b || a, this.stack = (new Error).stack
+      },
+      HTTPUnsupportedRequest: function(a, b) {
+        this.name = "HTTPUnsupportedRequest", this.snappMessage = a, this.message = b || a, this.stack = (new Error).stack
+      },
     },
     Connio: {
       connioBaseURL: "https://api.connio.com",
@@ -827,7 +919,7 @@ $(document).ready(function() {
             Authorization: "Basic " + btoa(this.connioKEY + ":" + this.connioSecret)
           },
           success: function(a) {
-            for(var b = com.fc.JavaScriptDistLib.JSON.parseJSONDataForPath(a, "$.results[:].t"), c = com.fc.JavaScriptDistLib.JSON.parseJSONDataForPath(a, "$.results[:].v"), d = [], e = 0; e < b.length; e++) d.push(moment(b[e]).format("MMM-DD hh:mm A"));
+            for(var b = jsonPath(a, "$.results[:].t"), c = jsonPath(a, "$.results[:].v"), d = [], e = 0; e < b.length; e++) d.push(formatDate(new Date(b[e]), "NNN-d HH:mm a"));
             g(d, c)
           },
           error: function(a, b, c) {
@@ -1180,7 +1272,8 @@ $(document).ready(function() {
     },
     Dictionary: {
       createEmptyDictionary: function() {
-        return "{}"
+        var a = {};
+        return a
       },
       removeAllKeys: function(a) {
         for(var b in a) delete a[b]
