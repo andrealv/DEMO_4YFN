@@ -8,12 +8,13 @@ svg:not(:root) {
 
 button, input, optgroup, select, textarea {
   margin: 0px;
-  font-family: inherit;
-  font-size: inherit;
   font-style: inherit;
-  font-variant-caps: inherit;
+  font-variant: inherit;
   font-weight: inherit;
+  font-stretch: inherit;
+  font-size: inherit;
   line-height: inherit;
+  font-family: inherit;
   color: inherit;
 }
 
@@ -65,18 +66,16 @@ img {
   margin-bottom: 0px;
   font-size: 14px;
   font-weight: normal;
-  line-height: 1.42857143;
+  line-height: 1.42857;
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
+  touch-action: manipulation;
   cursor: pointer;
-  -webkit-user-select: none;
+  user-select: none;
   background-image: none;
   border: 1px solid transparent;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-  border-bottom-left-radius: 4px;
+  border-radius: 4px;
 }
 
 .label {
@@ -89,14 +88,11 @@ img {
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
-  border-top-left-radius: 0.25em;
-  border-top-right-radius: 0.25em;
-  border-bottom-right-radius: 0.25em;
-  border-bottom-left-radius: 0.25em;
+  border-radius: 0.25em;
 }
 
 .viewport {
-  -webkit-user-select: none;
+  user-select: none;
   width: 100%;
   height: 100%;
 }
@@ -214,8 +210,9 @@ input, textarea, select {
 
 .c3 svg {
   font-style: normal;
-  font-variant-caps: normal;
+  font-variant: normal;
   font-weight: normal;
+  font-stretch: normal;
   font-size: 10px;
   line-height: normal;
   font-family: sans-serif;
@@ -227,11 +224,11 @@ input, textarea, select {
 }
 
 .c3 text {
-  -webkit-user-select: none;
+  user-select: none;
 }
 
 .c3-bars path, .c3-event-rect, .c3-legend-item-tile, .c3-xgrid-focus, .c3-ygrid {
-  shape-rendering: crispedges;
+  shape-rendering: crispEdges;
 }
 
 .c3-chart-arc path {
@@ -248,11 +245,11 @@ input, textarea, select {
 }
 
 .c3-xgrid, .c3-ygrid {
-  stroke-dasharray: 3px, 3px;
+  stroke-dasharray: 3, 3;
 }
 
 .c3-text.c3-empty {
-  fill: rgb(128, 128, 128);
+  fill: gray;
   font-size: 2em;
 }
 
@@ -261,7 +258,7 @@ input, textarea, select {
 }
 
 .c3-bar {
-  stroke-width: 0px;
+  stroke-width: 0;
 }
 
 .c3-brush .extent {
@@ -277,7 +274,7 @@ input, textarea, select {
 }
 
 .c3-area {
-  stroke-width: 0px;
+  stroke-width: 0;
   opacity: 0.2;
 }
 
